@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Routine Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Authentication Screen -->
+        <div id="authScreen" class="auth-container">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <h1>📚 Class Routine System</h1>
+                    <p>Department of ICT - MBSTU</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="showAuthForm('teacherLogin')">Teacher Login</button>
+                    <button class="auth-tab" onclick="showAuthForm('teacherRegister')">Teacher Register</button>
+                    <button class="auth-tab" onclick="showAuthForm('studentLogin')">Student Login</button>
+                    <button class="auth-tab" onclick="showAuthForm('studentRegister')">Student Register</button>
+                </div>
+
+                <!-- Teacher Login Form -->
+                <div id="teacherLoginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label>Email Address (@mbstu.ac.bd)</label>
+                        <input type="email" id="teacherLoginEmail" placeholder="mdshahinuddin@mbstu.ac.bd">
+                        <div id="teacherLoginEmailError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="teacherLoginPassword" placeholder="Enter your password">
+                        <div id="teacherLoginPasswordError" class="error-message"></div>
+                    </div>
+                    <button class="auth-btn" onclick="loginTeacher()">Login as Teacher</button>
+                    <button class="auth-btn secondary" onclick="showAuthForm('teacherRegister')">Don't have an account?
+                        Register</button>
+                    <div class="demo-info">
+                        <strong>Demo Teacher Account:</strong><br>
+                        Email: mdshahinuddin@mbstu.ac.bd | Password: teacher123
+                    </div>
+                </div>
+
+                <!-- Teacher Registration Form -->
+                <div id="teacherRegisterForm" class="auth-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="teacherRegisterName" placeholder="Dr. Mohammad Shahinuddin">
+                        <div id="teacherRegisterNameError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address (must end with @mbstu.ac.bd)</label>
+                        <input type="email" id="teacherRegisterEmail" placeholder="mdshahinuddin@mbstu.ac.bd">
+                        <div id="teacherRegisterEmailError" class="error-message"></div>
+                        <div id="teacherRegisterEmailSuccess" class="success-message">✓ Valid MBSTU teacher email</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password (min. 6 characters)</label>
+                        <input type="password" id="teacherRegisterPassword" placeholder="Create a password">
+                        <div id="teacherRegisterPasswordError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="teacherRegisterConfirmPassword" placeholder="Confirm password">
+                        <div id="teacherRegisterConfirmPasswordError" class="error-message"></div>
+                    </div>
+                    <button class="auth-btn" onclick="registerTeacher()">Register as Teacher</button>
+                    <button class="auth-btn secondary" onclick="showAuthForm('teacherLogin')">Already have an account?
+                        Login</button>
+                </div>
+
+                <!-- Student Login Form -->
+                <div id="studentLoginForm" class="auth-form">
+                    <div class="form-group">
+                        <label>Student ID (e.g., it22002@mbstu.ac.bd)</label>
+                        <input type="text" id="studentLoginEmail" placeholder="it22002@mbstu.ac.bd">
+                        <div id="studentLoginEmailError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="studentLoginPassword" placeholder="Enter your password">
+                        <div id="studentLoginPasswordError" class="error-message"></div>
+                    </div>
+                    <button class="auth-btn" onclick="loginStudent()">Login as Student</button>
+                    <button class="auth-btn secondary" onclick="showAuthForm('studentRegister')">Don't have an account?
+                        Register</button>
+                    <div class="demo-info">
+                        <strong>Demo Student Account:</strong><br>
+                        Email: it22002@mbstu.ac.bd | Password: student123
+                    </div>
+                </div>
+
+                <!-- Student Registration Form -->
+                <div id="studentRegisterForm" class="auth-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="studentRegisterName" placeholder="Your Full Name">
+                        <div id="studentRegisterNameError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Student Email (must start with it and end with @mbstu.ac.bd)</label>
+                        <input type="email" id="studentRegisterEmail" placeholder="it22099@mbstu.ac.bd">
+                        <div id="studentRegisterEmailError" class="error-message"></div>
+                        <div id="studentRegisterEmailSuccess" class="success-message">✓ Valid MBSTU student email</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password (min. 6 characters)</label>
+                        <input type="password" id="studentRegisterPassword" placeholder="Create a password">
+                        <div id="studentRegisterPasswordError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="studentRegisterConfirmPassword" placeholder="Confirm password">
+                        <div id="studentRegisterConfirmPasswordError" class="error-message"></div>
+                    </div>
+                    <button class="auth-btn" onclick="registerStudent()">Register as Student</button>
+                    <button class="auth-btn secondary" onclick="showAuthForm('studentLogin')">Already have an account?
+                        Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard (hidden until login) -->
+        <div id="dashboard" class="dashboard">
+            <header class="dashboard-header">
+                <div id="userInfo">Welcome</div>
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="toggleNotifications()">🔔 <span id="notificationBadge"
+                            class="badge"></span></button>
+                    <button id="addClassBtn" class="auth-btn" style="display:none;" onclick="showAddClassModal()">Add
+                        Class</button>
+                    <button class="auth-btn secondary" onclick="logout()">Logout</button>
+                </div>
+            </header>
+
+            <section class="user-profile">
+                <div id="userAvatar" class="avatar">👤</div>
+                <div>
+                    <h2 id="userName">User</h2>
+                    <p id="userRole">Role</p>
+                </div>
+            </section>
+
+            <div id="studentViewNotice" style="display:none;"></div>
+
+            <section class="controls">
+                <input id="searchInput" type="text" placeholder="Search classes..." oninput="filterClasses()">
+                <select id="filterSelect" onchange="filterClasses()">
+                    <option value="all">All Semesters</option>
+                    <option value="6th">6th Semester</option>
+                    <option value="myClasses">My Classes (Teacher)</option>
+                </select>
+            </section>
+
+            <main id="classesGrid" class="classes-grid">
+                <!-- Classes will be rendered here -->
+            </main>
+
+            <div id="notificationsPanel" class="notifications-panel">
+                <div id="notificationsList"></div>
+            </div>
+        </div>
+
+        <!-- Reschedule Modal -->
+        <div id="rescheduleModal" class="modal">
+            <div class="modal-content">
+                <h3>Reschedule Class</h3>
+                <label>Day</label>
+                <input id="rescheduleDay" type="text" placeholder="e.g., Monday">
+                <label>Time</label>
+                <input id="rescheduleTime" type="text" placeholder="e.g., 10:00-11:00">
+                <label>Room</label>
+                <input id="rescheduleRoom" type="text" placeholder="e.g., R-206">
+                <div class="modal-actions">
+                    <button onclick="saveReschedule()" class="auth-btn">Save</button>
+                    <button onclick="closeRescheduleModal()" class="auth-btn secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Class Modal -->
+        <div id="addClassModal" class="modal">
+            <div class="modal-content">
+                <h3>Add New Class</h3>
+                <label>Course Code</label>
+                <input id="newCourse" type="text" placeholder="e.g., ICT-3201">
+                <label>Course Name</label>
+                <input id="newCourseName" type="text" placeholder="e.g., Computer Networks">
+                <label>Semester</label>
+                <input id="newSemester" type="text" placeholder="e.g., 6th">
+                <label>Day</label>
+                <input id="newDay" type="text" placeholder="e.g., Monday">
+                <label>Time</label>
+                <input id="newTime" type="text" placeholder="e.g., 10:00-11:00">
+                <label>Room</label>
+                <input id="newRoom" type="text" placeholder="e.g., R-206">
+                <div class="modal-actions">
+                    <button onclick="saveNewClass()" class="auth-btn">Save</button>
+                    <button onclick="closeAddClassModal()" class="auth-btn secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
